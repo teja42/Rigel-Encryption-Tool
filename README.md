@@ -1,7 +1,7 @@
 # Rigel.pro
 Cross Platform Disk Encryption Solution.
 
-# What's the purpose of this? :
+# What's the purpose of this?
 
 We all encrypt out stuff and most operating systems come by default with an encryption software. It's ok to use that software
 for encrypting files on a drive that you don't carry around . But if you encrypt your portable drive with the default software
