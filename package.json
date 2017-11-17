@@ -24,5 +24,8 @@
     "fs-readdir-recursive": "^1.0.0",
     "nedb": "^1.8.0",
     "sudo-prompt": "^7.1.1"
+  },
+  "dev-dependencies":{
+    "electron":"^1.7.9"
   }
 }
