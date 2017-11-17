@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+      <link rel="stylesheet" type="text/css" href="css/ionicons.min.css"/>
+   </head>
+   <body>
+
+   <style>
+      @font-face{
+         font-family: Roboto;
+         src: url(Roboto-Thin.ttf);
+      }
+      
+      .left{
+         width:50%;
+         float: left;
+      }
+      
+      *{
+         margin:0;
+         padding:0;
+         font-family: Roboto;
+         overflow: hidden;
+      }
+
+      h2,h3{
+         color: #5286bd;
+      }
+      
+      .main{
+         height: 100vh;
+         width: 100%;
+         color: white;
+         padding: 10px;
+      }
+      
+      h2{
+         text-align: center;
+      }
+      
+      .sub-section-name{
+         font-size: 20px;
+      }
+      
+      .block{
+         width: 300px;
+         height: 50px;
+         padding: 5px;
+         cursor: pointer;
+         margin: 10px;
+         border-radius: 10px;
+         z-index: 2;
+      }
+      
+      .item-desc{
+         color: black;
+         font-weight: 900;
+      }
+      
+      .item-icon{
+         color: #e41b90;
+         font-size: 35px;
+      }
+   </style>
+
+   <section class="main" draggable="true">
+      
+   <h2>Rigel - <small>Encrypt once, Access anywhere.</small></h2>
+   <hr/>
+   <h3 class="sub-section-name">Start</h3>
+   <div class="left">
+      <div class="block animated animated bounceInUp" id="encrypt">
+         <i class="ion-locked item-icon"></i>
+         <span class="item-desc">Encrypt a removable drive.</span>
+      </div>
+      <div class="block animated bounceInUp" id="decrypt">
+         <i class="ion-unlocked item-icon"></i>
+         <span class="item-desc">Decrypt a removable drive.</span>
+      </div>
+   </div>
+      
+   <div class="animated bounceInUp">
+      <div class="block animated bounceInUp" id="encrypt-sys">
+         <i class="ion-locked item-icon"></i>
+         <span class="item-desc">Encrypt a local file.</span>
+      </div>
+
+   <div class="block animated bounceInUp" id="decrypt-sys">
+      <i class="ion-unlocked item-icon"></i>
+      <span class="item-desc">Decrypt a local file.</span>
+   </div>
+   </div>
+      
+   <br/>
+      
+   <h3 class="sub-section-name">Rescue</h3>
+      
+   <div class="block animated animated bounceInUp" id="fix">
+      <i class="ion-settings item-icon"></i>
+      <span class="item-desc">Fix a corrupt drive.</span>
+   </div>
+               
+   <h3 class="sub-section-name">Update</h3>
+      <div class="block animated animated bounceInUp" id="update">
+         <i class="ion-ios-cloud-download item-icon"></i>
+         <span class="item-desc">Check for Updates.</span>
+      </div>
+      
+   </section>
+
+   </body>
+   <script type="text/javascript">
+      let $ = (x)=>document.querySelector(x);
+      $(".main").ondragstart = e=>e.preventDefault();
+      
+      $("#encrypt").onclick = ()=>window.location = "encrypt.html";
+   </script>
+</html>

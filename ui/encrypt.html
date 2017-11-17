@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Rigel - Encryption Wizard.</title>
+      <link rel="stylesheet" type="text/css" href="css/ionicons.min.css"/>
+      <link rel="stylesheet" type="text/css" href="css/static.css"/>
+   </head>
+
+   <style type="text/css">
+
+    @keyframes fadeout {
+       from{ opacity: 1};
+       to { opacity: 0};
+       10%{ opacity: 0.90; }
+       25%{ opacity: 0.75; }
+       34%{ opacity: 0.62; }
+       50%{ opacity: 0.50; }
+       62%{ opacity: 0.32; }
+       75%{ opacity: 0.25; }
+       88%{ opacity: 0.11; }
+       100%{ opacity: 0; }
+    }
+ 
+    @keyframes fadein {
+       from{ opacity: 0};
+       to {opacity: 1};
+       10%{ opacity: 0.10; }
+       25%{ opacity: 0.25; }
+       34%{ opacity: 0.35; }
+       50% { opacity: 0.50; }
+       63%{ opacity: 0.62; }
+       75% { opacity: 0.75; }
+       85%{ opacity: 0.85; }
+       100%{ opacity: 1; }
+    }
+  
+    .sub-usb{
+       text-align: center;
+       background-color: white;
+       padding: 3px;
+       box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.25);
+       margin-bottom: 20px;
+    }
+
+    .sub-usb>p{
+       color: #007ecc;
+       margin: 3px;
+    }
+ 
+    .home{
+       cursor: pointer;
+       transition: color 0.2s;
+       position: absolute;
+       top: 20px;
+       left: 20px;
+       font-size: 40px;
+    }
+ 
+    .home:hover{
+       color: darkmagenta;
+    }
+ 
+    h1{
+       text-align: center;
+       color: #0085cc;
+       font-weight: 200;
+    }
+ 
+    .info,
+    .usb-selection,
+    .disk-encryption{
+       width: 70%;
+       margin: 2% calc(15% - 20px);
+       border: 0.5px solid #b3b6b7;
+       border-radius: 5px;
+       padding: 20px;
+    }
+ 
+    .usb-selection,
+    .disk-encryption{
+       display: none;
+    }
+ 
+    h3{
+       margin: 20px 0;
+    }
+ 
+    .step{
+       line-height: 25px;
+    }
+ 
+    #doit{
+       margin: 20px 0 20px 80%;
+       position: relative;
+    }
+
+    [mntstatus=false]:hover{
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    [mntstatus=true]{
+      transition: border-bottom 0.1s ease;
+    }
+
+    [mntstatus=true]:hover{
+      cursor: pointer;
+      border-bottom: 2px solid darkmagenta;
+    }
+
+    .container{
+       background-attachment: fixed;
+       min-height: 98vh;
+       margin: 0;
+    }
+
+    .button{
+      padding: 5px;
+      border:0;
+      outline: 0;
+      background-color: #0082ad;
+      color: white;
+      min-height: 30px;
+      transition: transform 0.3s;
+      cursor: pointer;
+      border-radius: 2px;
+      display: inline-block;
+      margin: 3px;
+      font-size: 15px;
+    }
+
+    .button:hover{
+      transform: scale(0.9);
+    }
+
+    [disabled]:hover{
+       cursor: not-allowed;
+       opacity: 0.7;
+       transform: scale(1);
+    }
+
+    .file-list-wrapper{
+      max-height: 50vh;
+      overflow: scroll;
+      margin: 20px 2px;
+      background-color: white;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.25);
+    }
+
+    .file-list{
+      margin: 5px 0;
+      text-align: left;
+      min-height: 20px;
+    }
+
+    hr{
+      margin: 1px 0;
+      width: 95%;
+    }
+
+    .file-list>div{
+      display: inline-block;   
+    }
+
+    .enc-progress>img{
+       width: 25px;
+       height: 25px;
+    }
+
+    .enc-progress{
+      margin-left: 3px;
+    }
+
+    .enc-file-name{
+      overflow: scroll;
+      margin-left: 10px;
+      width: 93%;
+      text-overflow: ellipsis;
+      float:right;
+    }
+
+    .enc-progress>i{
+       font-size: 20px;
+       color: green;
+    }
+
+    #de--driveName{
+      display: inline-block;
+      margin-left: 30px;
+    }
+
+    .back-btn{
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 10px;
+      transition: background-color 0.5s; 
+    }
+
+    .back-btn:hover{
+      cursor: pointer;
+      background-color: #d1d1d1;
+    }
+
+    .de--errors{
+      width: 90%;
+      display: none;
+      margin: 30px 5%;
+    }
+
+    .de--progress-wrapper{
+      padding: 30px 0;
+      display: none;
+    }
+
+    .de--progress{
+      width: 100%;
+      height: 6px;
+      box-shadow: 1px 1px 5px 3px rgba(0, 0, 0, 0.25);
+      margin-bottom: 15px;
+    }
+
+    .de--progress>div{
+      height: 100%;
+      background-color: #0085cc;
+      transition: width 0.2s;
+      width: 0;
+    }
+
+ </style>
+
+   <body>
+    <br/>
+      <div class="control">
+         <i class="ion-home home fix-state"></i>
+      </div>
+
+      <div class="container">
+         <h1>Encryption Wizard.</h1>
+
+         <section class="info">
+            <h2>Some info before you start.</h2>
+            
+            <h3>1. Cross Platform</h3>
+            <p class="step">When you encrypt your external drive with Rigel, it can be 
+               acessed from virtually any device. The drive will have a portable application
+               in it for Windows, Mac and Linux so you can access your files without installing
+               any other software on the machine you want to use it. For other operating 
+               Systems you can use the python script to access your files. 
+            </p>
+
+            <h3>2. It's exFAT</h3>
+            <p class="step">The removable drive must be formatted with exFAT since it's the 
+               most suited for cross platform work.<br/>
+               Don't worry if it's not exFAT partioned , we'll guide you.
+               It takes less than a minute!
+            </p>
+
+            <h3>3. File and Folder name Obfuscation.</h3>
+            <p class="step">Usually when you encrypt you files , people who don't have the 
+               password can't view them, but they get an idea of how important the file is 
+               based on the file or folder name, well ,not anymore. Rigel obfuscates the file
+               and folder names so that people can be completely clueless of what the file
+               might contain. 
+            </p>
+            <button id="doit" class="button">Continue</button>
+         </section>
+
+         <section class="usb-selection">
+            <h3>Select a removable drive to continue : </h3>
+            <div class="usb-list"> </div>
+         </section>
+
+         <section class="disk-encryption">
+           <i class="ion-arrow-left-c back-btn fix-state" id="de--close"></i>
+          <h3 id="de--driveName"></h3> <br/>
+          <button id="de--openDrive" class="button">Show in File Explorer</button>
+          <button id="de--encrypt" class="button fix-state">Start Encryption</button>
+          <div class="de--errors"></div>
+          <div class="de--progress-wrapper">
+            <div class="de--progress">
+              <div></div>
+            </div>
+            <p>Progress : <span class="de--pText"></span></p>
+          </div>
+          <div class="file-list-wrapper"> </div>
+       </section>
+      </div>
+
+   </body>
+
+<script src="js/Mustache.js" type="text/javascript"></script>
+<script type="text/x-template" id="usb-list-template">
+   <div mntpnt="{{mntpnt}}" mntstatus="{{mntstatus}}" class="sub-usb">
+      <p>{{description}} ( {{size}} )</p><br/>
+      <strong>Name :</strong> {{name}} <br/>
+      <strong usb-mntpnt>mountpoint :</strong> {{mountpoint}} 
+   </div>
+</script>
+
+<script type="text/javascript">
+   const {ipcRenderer} = require("electron");
+   const Event = require("events");
+   let $ = (x)=>document.querySelector(x);
+   $(".home").onclick = function(){
+     if(this.hasAttribute("disabled")) return;
+     window.location = "index.html";
+    }
+   let usbListTemplate = $("#usb-list-template").innerHTML;
+   Mustache.parse(usbListTemplate);
+
+   let _MNTPNT,_FILESYSTEM,_FILELIST=[],_FILEPROG;
+
+   let event = new Event();
+
+   let fadeAnim = (f,t)=>{
+      let from = $(f);
+      let to = $(t);
+      from.classList.remove("fadein");
+      from.style.animationName = "fadeout";
+      from.style.animationDuration = "300ms";
+      setTimeout(()=>from.style.display = "none",300);
+      setTimeout(()=>{
+         to.classList.remove("fadeout");
+         to.style.animationName = "fadein";
+         to.style.animationDuration = "250ms";
+         to.style.display = "block";
+      },400);
+   }
+
+   let showDriveScanLoad = ()=>{
+    $(".usb-list").insertAdjacentHTML("beforeend",
+         "<div style='color: #5784ff;text-align: center;'><h4>Waiting for devices<br/>"+
+          "Device not Found? Try removing and plugging it in again.</h4>"+
+          "<img src='Spinner.svg' width='50px' height='50px'/></div>"
+      );
+   }
+
+   let writeError = (x)=>{
+     let error = $(".de--errors");
+     error.innerHTML = null;
+     error.style.display = "block";
+     event.emit("unfix-state");
+     error.insertAdjacentHTML("beforeend",
+      "<i class='ion-close-circled' style='color:red;margin: 3px; font-size: 15px;'></i>"+
+      `<span>${x}</span><br/><br/>`
+    );
+   }
+
+   ipcRenderer.on("list-usb",(evt,drives)=>{
+      let html,name;
+      $(".usb-list").innerHTML = "";
+
+      !drives.length?showDriveScanLoad():true;
+
+      for(let i=0;i<drives.length;i++){
+          html = Mustache.render(usbListTemplate,{
+            xid: drives[i].xid,
+            mntstatus: drives[i].mountpoint=="Not Mounted"?"false":"true", 
+            description: drives[i].description,
+            name: drives[i].name,
+            size: drives[i].size,
+            mountpoint: drives[i].mountpoint,
+            mntpnt: drives[i].mountpoint
+         });
+         $(".usb-list").insertAdjacentHTML("beforeend",html);
+      }
+   });
+
+   $("#doit").onclick = ()=>fadeAnim(".info",".usb-selection");
+
+   window.onload = ()=>{
+      showDriveScanLoad();
+      ipcRenderer.send("get-usb-list");
+   }
+
+   $(".usb-list").onclick = (e)=>{
+     let target; let c;
+     let node = e.target; let mntpnt;
+     while(node!=null){
+      (node.classList.value == "sub-usb")?(()=>{
+        target = node;
+        c=1;
+      })():node=node.parentElement;
+      if(c) break;
+     }
+     if(!target) return;
+     if(target.attributes['mntpnt'].value!=="Not Mounted") 
+       mntpnt = target.attributes["mntpnt"].value;
+     else return;
+     fadeAnim(".usb-selection",".disk-encryption");
+     $("#de--driveName").innerHTML = target.firstElementChild.innerHTML;
+     _MNTPNT = mntpnt;
+   }
+
+   $("#de--encrypt").onclick = ()=>{
+      ipcRenderer.send("show-msgBox",{
+         title: "Rigel Pro - Admin Access",
+         message: "Rigel requires adminstrative rights to prepare the disk for encryption. You may be " +
+         " prompted multiple times for adminstative rights. Allow access when prompted."
+      });event.emit("unfix-state");
+      ipcRenderer.send("prepare-encryption",_MNTPNT);
+      event.emit("fix-state");
+   }
+
+   ipcRenderer.on("encrypt:fileList",(evt,list)=>{
+      _FILELIST = list;
+      for(i=0;i<list.length;i++){
+         $(".file-list-wrapper").insertAdjacentHTML("beforeend", "<div class=\"file-list\">" +
+               "<div class=\"enc-progress\"></div>" +
+               `<div class=\"enc-file-name\">${list[i]}</div>` + 
+            "</div><hr/>");
+      }
+      _FILEPROG = document.querySelectorAll(".enc-progress");
+      $(".de--progress-wrapper").style.display = "block";
+      console.log(_FILEPROG);
+   });
+
+   ipcRenderer.on("encrypt:fileOn",(evt,id)=>{
+      console.log("Start : ",id);
+      _FILEPROG[id].insertAdjacentHTML("beforeend","<img src='Reload.svg'/>");
+   });
+
+   ipcRenderer.on("encrypt:fileOff",(evt,id)=>{
+      _FILEPROG[id].innerHTML = "";
+      console.log("Complete : ",id);
+      _FILEPROG[id].insertAdjacentHTML("beforeend","<i class='ion-checkmark-circled'></i>");
+      setEProgress();
+   });
+
+   ipcRenderer.on("encrypt:main_dir_e",()=>{
+    writeError("The Disk might already be a Rigel.pro Encrypted Disk .Use the" 
+        + " Rescue option in the main menu."
+    );
+    event.emit("unfix-state");
+   });
+
+   ipcRenderer.on("disk-prep:error",()=>{
+    writeError("An Error occured while preparing the disk for encryption. Make sure you have provided"+
+      " sufficient rights when prompted prompted for.");
+      event.emit("unfix-state");
+   });
+
+   $("#de--openDrive").onclick = ()=>{ipcRenderer.send("openFolder",_MNTPNT);console.log(_MNTPNT);};
+   $("#de--close").onclick = function(){
+     if(this.hasAttribute("disabled")) return;
+     fadeAnim(".disk-encryption",".usb-selection");
+   }
+
+   ipcRenderer.on("FileSystem",(evt,fileSystem)=>{
+      _FILESYSTEM = fileSystem;
+   });
+
+   event.on("unfix-state",()=>{
+    let x = document.querySelectorAll(".fix-state");
+    for(i=0;i<x.length;i++){
+      x[i].removeAttribute("disabled");
+    }
+   });
+
+   event.on("fix-state",()=>{
+     let x = document.querySelectorAll(".fix-state");
+    for(i=0;i<x.length;i++){
+      x[i].setAttribute("disabled","");
+    }
+   });
+
+   let EProgressCounter = 0;
+   let setEProgress = ()=>{
+     let x = _FILELIST.length;
+     EProgressCounter++;
+     let y = ((EProgressCounter/x)*100).toFixed(2);
+     $(".de--pText").innerHTML = `${y}%`;
+     y==100?event.emit("unfix-state"):false;
+     $(".de--progress>div").style.width = `${y}%`;
+   }
+
+</script>
+</html>

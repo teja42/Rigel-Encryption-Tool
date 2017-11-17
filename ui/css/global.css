@@ -1,0 +1,36 @@
+body{
+   background: linear-gradient(rgba(0,0,0,0.05),rgba(0,0,0,0.1));
+   min-height: 100vh;
+}
+
+#window-drag{
+   height: 30px;
+   width: 100%;
+   margin-top: 5px;
+   position: fixed;
+}
+
+.actual-window-drag{
+   -webkit-app-region: drag;
+   height: 100%;
+   width: calc(100% - 100px);
+}
+
+#window-drag>div{
+   float: right;
+   margin-right: 7px;
+   display: inline-block;
+}
+
+.win-close:hover{ color: red; }
+.win-resize:hover{ color: #eb0085; }
+.win-min:hover{ color:#003252; }
+.win-btn{
+   transition: color 0.1s;
+   font-size: 17px;
+   margin-left: 6px;
+}
+.win-btn:hover{
+   cursor: pointer;
+}
+

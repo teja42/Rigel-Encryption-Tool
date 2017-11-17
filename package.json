@@ -1,0 +1,28 @@
+{
+  "name": "rigel.pro",
+  "version": "0.0.2",
+  "description": "Cross Platform Disk Encryptor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec \"electron .\" --watch index.js"
+  },
+  "notes": "Fixed bugs in diskEncryptor",
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/teja42/Rigel.pro"
+  },
+  "keywords": [
+    "Encryption",
+    "File Encryptor",
+    "Disk Encryptor"
+  ],
+  "author": "Teja",
+  "license": "LGPL-2.1",
+  "dependencies": {
+    "drivelist": "^5.2.7",
+    "fs-readdir-recursive": "^1.0.0",
+    "nedb": "^1.8.0",
+    "sudo-prompt": "^7.1.1"
+  }
+}
