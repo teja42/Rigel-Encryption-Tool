@@ -17,7 +17,12 @@ your cat videos just plug you drive and just launch an application for that oper
 are placed at the root of the drive and they serve as a file explorer after successful authentication . You can edit documents
 and watch videos on the go without and issue. Rigel.pro does a lot behind the scenes for a fluid user experience.
 
-# Contribute :
+# Getting Started
+Download the source code to a folder and navigate to the folder from your termial and issue this command 
+`npm init && npm start`
+ Requires node.js and npm to be installed.
+
+# Contribute
 
 This is an open source project and building it takes a really long time.
 You can help contribute to this project by visiting the patreon page at https://patreon.com/teja42
