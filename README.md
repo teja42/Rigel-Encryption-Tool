@@ -1,5 +1,6 @@
 # Rigel.pro
 Cross Platform Disk Encryption Solution.
+Caution : This is still in development and don't encrypt any important data.
 
 # What's the purpose of this?
 
