@@ -96,7 +96,8 @@ module.exports = class {
    delete(path){
      return new Promise((res,rej)=>{
         fs.unlink(path,(err)=>{
-        err?rej():res();
+          err?console.log(err):true;
+          err?rej(err):res();
       });
      });
    }
@@ -117,8 +118,8 @@ module.exports = class {
          ep++;
       }
       this.cipherCore.on("complete",async (id)=>{
-         try{await this.delete(this.fileList[id]);}
-          catch(e){ console.log(e);}
+         try{await this.delete(`${this.mntpnt}/${this.fileList[id]}`);}
+          catch(e){ console.log("Error deleting file : ",e);}
          this.send("encrypt:fileOff",id);
          ec++;
          if((ec)==this.fileList.length){console.log("Ec"); return this.send("encryption-complete"); }
